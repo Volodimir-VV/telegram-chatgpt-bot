@@ -1,3 +1,5 @@
+#!/usr/local/bin/python
+import os, sys
 import logging
 import openai
 import os
@@ -7,7 +9,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, Con
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Привіт! Я AI-бот. Напиши мені будь-що!")
+    await update.message.reply_text("ГЏГ°ГЁГўВіГІ! Гџ AI-ГЎГ®ГІ. ГЌГ ГЇГЁГёГЁ Г¬ГҐГ­Ві ГЎГіГ¤Гј-Г№Г®!")
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_message = update.message.text
@@ -16,14 +18,14 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "Ти дружній український помічник."},
+                {"role": "system", "content": "Г’ГЁ Г¤Г°ГіГ¦Г­ВіГ© ГіГЄГ°Г ВїГ­Г±ГјГЄГЁГ© ГЇГ®Г¬ВіГ·Г­ГЁГЄ."},
                 {"role": "user", "content": user_message}
             ]
         )
         reply = response.choices[0].message.content
         await update.message.reply_text(reply)
     except Exception as e:
-        await update.message.reply_text("Ой, сталася помилка ??")
+        await update.message.reply_text("ГЋГ©, Г±ГІГ Г«Г Г±Гї ГЇГ®Г¬ГЁГ«ГЄГ  ??")
 
 if __name__ == "__main__":
     TELEGRAM_TOKEN = os.environ["TELEGRAM_TOKEN"]
@@ -32,5 +34,5 @@ if __name__ == "__main__":
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
-    print("Бот запущено!")
+    print("ГЃГ®ГІ Г§Г ГЇГіГ№ГҐГ­Г®!")
     app.run_polling()
